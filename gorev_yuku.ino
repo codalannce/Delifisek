@@ -15,11 +15,23 @@ LoRa_E22 E22(&mySerial);
 #define M1 6
 
 struct veriler {
+  byte  testid[4]; 
+  byte   paalt[4];
+
+  byte   pitchdeger[4];
+  byte   rolldeger[4];
+
+  byte   lat[6];
+  byte   lng[6];
+  byte   alt[6];
+
   byte   glat[6];
   byte   glng[6];
   byte   galt[6];
   
+
 } data;
+
 
 TinyGPSPlus gps;
 
@@ -38,20 +50,18 @@ void setup() {
 }
 
 void loop() {
-  
+  *(float*)(data.testid) = 5;
   while(E22.available()> 1){
     if(gps.encode(gpsSerial.read())){
-
+     
       *(float*)(data.glat) = gps.location.lat();
       *(float*)(data.glng) = gps.location.lng();
       *(float*)(data.galt) = gps.altitude.meters();
-      ResponseStatus rs = E22.sendFixedMessage(0, 2, 19, &data, sizeof(veriler));
-      Serial.println(rs.getResponseDescription());
-
-      delay(100);
+      delay(200);
     }    
   }
-  
+  ResponseStatus rs = E22.sendFixedMessage(0, 101, 76, &data, sizeof(veriler));
+  Serial.println(rs.getResponseDescription());
 
   
 
