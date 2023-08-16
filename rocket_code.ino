@@ -140,7 +140,7 @@ float A =  gps.altitude.meters();
   *(float*)(data.pitchdeger) = p;
   *(int*)(data.paalt) = alt_status;
 
-  delay(500);
+  delay(100);
   ResponseStatus rs = E22.sendFixedMessage(0, 101, 76, &data, sizeof(veriler));
   //Serial.println(rs.getResponseDescription());
     
