@@ -22,6 +22,7 @@ Kalman kalmanY;
 
 struct veriler {
 
+  byte   testid[4];
   byte   paalt[4];
 
   byte   pitchdeger[4];
@@ -48,9 +49,6 @@ Adafruit_BMP085 sensor;
 
 TinyGPSPlus gps;
 MPU6050 mpu(Wire);
-
-
-
 
 void setup() {
 pinMode(funye, OUTPUT);
@@ -90,23 +88,10 @@ float accelY = mpu.getAccAngleY();
 float p = kalmanX.getAngle(accelX, gyroX, dt);
 float r = kalmanY.getAngle(accelY, gyroY, dt);
 
-float gla = *(float*)(data.glat);
-float gln = *(float*)(data.glng);
-float gA =  *(float*)(data.galt);
-
 int a = sensor.readAltitude();
 int alt_status = a - sensor.readAltitude(101325);
 int min_apogee = 1400;
 
-while (E22.available()  > 1) {
-  ResponseStructContainer rsc = E22.receiveMessage(sizeof(veriler));
-  struct veriler data = *(veriler*) rsc.data;
-  float gla = *(float*)(data.glat);
-  float gln = *(float*)(data.glng);
-  float gA =  *(float*)(data.galt);
-  rsc.close();
-
-}
 float la = gps.location.lat();
 float ln = gps.location.lng();
 float A =  gps.altitude.meters();
@@ -115,10 +100,6 @@ float A =  gps.altitude.meters();
     *(float*)(data.rolldeger) = r;
     *(float*)(data.pitchdeger) = p;
     *(int*)(data.paalt) = alt_status;
-    *(float*)(data.glat) = gla;
-    *(float*)(data.glng) = gln;
-    *(float*)(data.galt) = gA; 
- 
 
     while (gpsSerial.available() > 0) {
       if (gps.encode(gpsSerial.read())) {
@@ -130,7 +111,12 @@ float A =  gps.altitude.meters();
       
     if (alt_status > 500){
       if (a >= min_apogee) {
+        a = min_apogee;
         k1 = true;
+      }
+      else{
+
+      }
         if(a >= 1000 && a < 1300){
           if(p <= 1){
             digitalWrite(funye, HIGH);
@@ -138,9 +124,10 @@ float A =  gps.altitude.meters();
           
           }
         }
-      }  
+        
     }  
   }
+
   while (gpsSerial.available() > 0) {
     if (gps.encode(gpsSerial.read())) {
       *(float*)(data.lat) = la;
@@ -152,12 +139,9 @@ float A =  gps.altitude.meters();
   *(float*)(data.rolldeger) = r;
   *(float*)(data.pitchdeger) = p;
   *(int*)(data.paalt) = alt_status;
-  *(float*)(data.glat) = gla;
-  *(float*)(data.glng) = gln;
-  *(float*)(data.galt) = gA; 
 
   delay(500);
-  ResponseStatus rs = E22.sendFixedMessage(0, 2, 19, &data, sizeof(veriler));
+  ResponseStatus rs = E22.sendFixedMessage(0, 101, 76, &data, sizeof(veriler));
   //Serial.println(rs.getResponseDescription());
     
 }
