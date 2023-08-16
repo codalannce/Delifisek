@@ -11,6 +11,7 @@ SoftwareSerial gpsSerial(RX_PIN, TX_PIN); //rx, tx
 
 LoRa_E22 E22(&mySerial);
 
+
 #define M0 7
 #define M1 6
 
