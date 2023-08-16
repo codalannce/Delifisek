@@ -44,7 +44,8 @@ void loop() {
     ResponseStructContainer rsc = E22.receiveMessage(sizeof(veriler));
     struct veriler data = *(veriler*) rsc.data;
     float testidvalue = *(float*)(data.testid);
-
+    Serial.print(testidvalue);
+    Serial.print(";");
     if(testidvalue == 10) {
       Serial.print(*(int*)(data.paalt));//Basınç irtifa değeri
       Serial.print(";"); 
