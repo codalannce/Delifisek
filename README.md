@@ -5,7 +5,7 @@ All software buildings and original codes of Delifisek Rocket Team can be found 
 
 ## Subheader
 
-##LICENSE
+## LICENSE
 
 
 
