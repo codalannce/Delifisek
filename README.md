@@ -7,5 +7,7 @@ All software buildings and original codes of Delifisek Rocket Team can be found 
 
 ## LICENSE
 
+This is project is licensed under MIT License - Check LICENSE
+
 
 
