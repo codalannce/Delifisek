@@ -1,12 +1,11 @@
 <h1> DELİFİŞEK ROCKET TEAM SOFTWARE DESIGNS</h1>
 
 
-All software buildings and original codes can be found here ! All you can do is pull request and commit changes if there's anything must be change 😉
+All software buildings and original codes of Delifisek Rocket Team can be found here !
 
 ## Subheader
 
-Changes
-
+##LICENSE
 
 
 
